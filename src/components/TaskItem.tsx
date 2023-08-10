@@ -1,16 +1,19 @@
 import React, { useState } from "react";
 import { Task } from "../models/Task";
 import { AiFillEdit, AiFillDelete, AiFillCheckCircle, AiFillBackward } from "react-icons/ai";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteTask, moveTask } from "../store";
 
-interface AllTasks extends Task {
-  tasks: Task[],
-  setTasks: React.Dispatch<React.SetStateAction<Task[]>>,
-}
+// interface AllTasks extends Task {
+//   // tasks: Task[],
+//   // setTasks: React.Dispatch<React.SetStateAction<Task[]>>,
+// }
 
-const TaskItem: React.FC<AllTasks> = ({ id, description, isDone, tasks, setTasks}) => {
+const TaskItem: React.FC<Task> = ({ id, description, isDone}) => {
   const [edit, setEdit] = useState<boolean>(false)
   const [edited, setEdited] = useState<string>(description)
-
+  const tasks = useSelector((state: any) => state.tasks)
+  const dispatch = useDispatch()
 
   const handleKeyPress = (event: any) => {
     if (event.key === "Enter" && edited) {
@@ -21,7 +24,7 @@ const TaskItem: React.FC<AllTasks> = ({ id, description, isDone, tasks, setTasks
   };
 
   const handleEnterPressed = () => {
-    const updatedTasks = tasks.map((task) => {
+    const updatedTasks = tasks.map((task: Task) => {
       if (id === task.id) {
         return {
           ...task,
@@ -31,42 +34,37 @@ const TaskItem: React.FC<AllTasks> = ({ id, description, isDone, tasks, setTasks
       return task;
     });
   
-    setTasks(updatedTasks);
+    // setTasks(updatedTasks);
     setEdit(false)
   }
 
 
-  const deleteTask = () => {
-    const updated: Task[] = tasks.filter((task: Task) => task.id !== id)
-    setTasks(updated)
+  const removeTask = () => {
+    dispatch(deleteTask(id))
   }
 
   const completeTask = () => {
-    const updatedTasks = tasks.map((task) => {
-      if (id === task.id) {
-        return {
-          ...task,
-          isDone: !task.isDone,
-        };
-      }
-      return task;
-    });
-  
-    setTasks(updatedTasks);
+    
+    const payload = {
+      id,
+      isDone: !isDone
+    }
+
+    dispatch(moveTask(payload))
   };
   
   return (
-    <div className="w-full bg-yellow-300 transform transition-all hover:scale-103 hover:outline-2 hover:outline-black duration-500 p-6 rounded-lg shadow-md">
+    <div className="w-full bg-yellow-300 transform transition-all hover:outline-2 hover:outline-black duration-500 p-6 rounded-lg shadow-md">
       <div className="flex justify-between items-center">
         <div>
           {edit && <input type="text" value={edited} className="px-2 py-1" onChange={(e) => setEdited(e.target.value)} onKeyPress={handleKeyPress}/>}
-          {!edit && <div className="font-medium">{description}</div>}
+          {!edit && <div className={`font-medium ${isDone ? 'line-through' : ''}`}>{description}</div>}
         </div>
         <div className="flex gap-2 items-center">
           <span onClick={() => setEdit((prev) => !prev)}>
             <AiFillEdit />
           </span>
-          <span onClick={deleteTask}>
+          <span onClick={removeTask}>
             <AiFillDelete />
           </span>
           {!isDone && <span onClick={completeTask}>

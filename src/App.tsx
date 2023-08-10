@@ -3,29 +3,31 @@ import "./App.css";
 import TaskItem from "./components/TaskItem";
 import { Task } from "./models/Task";
 import InputField from "./components/InputField";
+import { useDispatch, useSelector } from "react-redux";
+import { filterTask } from "./store";
 
 function App() {
-  const [tasks, setTasks] = useState<Task[]>([
-    {
-      id: 1,
-      description: "asdsadas",
-      isDone: false,
-    },
-    {
-      id: 2,
-      description: "asdsadfgsdlkfnsdknfas",
-      isDone: false,
-    },
-    {
-      id: 3,
-      description: "pppk;okolkdjgfjdhjg",
-      isDone: true,
-    },
-  ]);
+  const tasks = useSelector((state: any) => state.tasks)
 
-  let [todo, setTodo] = useState<string>("")
+  const [todo, setTodo] = useState<string>("");
+  const dispatch = useDispatch()
 
-  useEffect(()=> {}, [tasks])
+  const handleChange = (e: any) => {
+    switch (e.target.value) {
+      case 'active':
+        dispatch(filterTask(false))
+        break;
+      
+      case 'completed':
+        dispatch(filterTask(true))
+        break
+      
+      case 'all':
+    
+      default:
+        break;
+    }
+  }
 
   return (
     <div className="min-h-screen bg-blue-500 p-10">
@@ -34,26 +36,26 @@ function App() {
           Taskify
         </p>
         <div className="w-full">
-          <InputField todo={todo} setTodo={setTodo} setTasks={setTasks}/>
+          <InputField todo={todo} setTodo={setTodo} />
         </div>
         <div className="flex gap-5">
-          <div className="w-full bg-cyan-400">
-            <div className="flex flex-col gap-4 p-4">
-              <p className="w-full text-2xl text-white">Active Tasks</p>
+          <div className="w-1/2  mx-auto bg-cyan-400">
+            <div className="flex gap-4 p-4">
+              <p className="w-full text-2xl text-white">Tasks</p>
+              <select name="" id="" onChange={handleChange}>
+                <option value="all">All</option>
+                <option value="active">Active</option>
+                <option value="completed">Completed</option>
+              </select>
             </div>
             <div className="py-2 px-8 flex flex-col gap-2">
               {tasks.map((todo: Task) => (
-                !todo.isDone && <TaskItem key={todo.id} id={todo.id} description={todo.description} isDone={todo.isDone} tasks={tasks} setTasks={setTasks } />
-              ))}
-            </div>
-          </div>
-          <div className="w-full bg-red-400">
-            <div className="flex flex-col gap-4 p-4">
-              <p className="w-full text-2xl text-white">Completed Tasks</p>
-            </div>
-            <div className="py-2 px-8 flex flex-col gap-2">
-              {tasks.map((todo: Task) => (
-                todo.isDone && <TaskItem key={todo.id} description={todo.description} isDone={todo.isDone} id={todo.id} tasks={tasks} setTasks={setTasks } />
+                <TaskItem
+                  key={todo.id}
+                  id={todo.id}
+                  description={todo.description}
+                  isDone={todo.isDone}
+                />
               ))}
             </div>
           </div>

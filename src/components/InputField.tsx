@@ -1,8 +1,12 @@
 import React from "react";
 import { Props } from "../models/Props";
 import { Task } from "../models/Task";
+import { useDispatch } from "react-redux";
+import { addTask } from "../store";
 
-const InputField: React.FC<Props> = ({ todo, setTodo, setTasks }) => {
+const InputField: React.FC<Props> = ({ todo, setTodo }) => {
+
+  const dispatch = useDispatch()
   
     const handleAdd = () => {
         if (todo) {
@@ -11,8 +15,10 @@ const InputField: React.FC<Props> = ({ todo, setTodo, setTasks }) => {
                 description: todo,
                 isDone: false
             };
+
+            dispatch(addTask(newTodo))
     
-            setTasks((prev) => [...prev, newTodo])
+            // setTasks((prev) => [...prev, newTodo])
             setTodo('')
         }
     }
