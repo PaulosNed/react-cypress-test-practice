@@ -10,39 +10,24 @@ import { deleteTask, moveTask } from "../store";
 // }
 
 const TaskItem: React.FC<Task> = ({ id, description, isDone}) => {
+
+  // to start editing a field
   const [edit, setEdit] = useState<boolean>(false)
+
+  // to access the new edited task name
   const [edited, setEdited] = useState<string>(description)
+
+  // for use of deleting tasks
   const tasks = useSelector((state: any) => state.tasks)
   const dispatch = useDispatch()
 
-  const handleKeyPress = (event: any) => {
-    if (event.key === "Enter" && edited) {
-      // Call your function here, passing the inputValue if needed
-      // For example, you can call a function named "handleEnterPressed"
-      handleEnterPressed();
-    }
-  };
 
-  const handleEnterPressed = () => {
-    const updatedTasks = tasks.map((task: Task) => {
-      if (id === task.id) {
-        return {
-          ...task,
-          description: edited,
-        };
-      }
-      return task;
-    });
-  
-    // setTasks(updatedTasks);
-    setEdit(false)
-  }
-
-
+  // to handle deleting task
   const removeTask = () => {
     dispatch(deleteTask(id))
   }
 
+  // to toggle completing and activating task
   const completeTask = () => {
     
     const payload = {
@@ -57,16 +42,20 @@ const TaskItem: React.FC<Task> = ({ id, description, isDone}) => {
     <div className="w-full bg-yellow-300 transform transition-all hover:outline-2 hover:outline-black duration-500 p-6 rounded-lg shadow-md">
       <div className="flex justify-between items-center">
         <div>
-          {edit && <input type="text" value={edited} className="px-2 py-1" onChange={(e) => setEdited(e.target.value)} onKeyPress={handleKeyPress}/>}
+          {edit && <input type="text" value={edited} className="px-2 py-1" onChange={(e) => setEdited(e.target.value)} />}
           {!edit && <div className={`font-medium ${isDone ? 'line-through' : ''}`}>{description}</div>}
         </div>
         <div className="flex gap-2 items-center">
-          <span onClick={() => setEdit((prev) => !prev)}>
+          {/* <span onClick={() => setEdit((prev) => !prev)}>
             <AiFillEdit />
-          </span>
+          </span> */}
+
+          {/* Delete Task Section */}
           <span onClick={removeTask}>
             <AiFillDelete />
           </span>
+
+          {/* Toggle Complition section */}
           {!isDone && <span onClick={completeTask}>
             <AiFillCheckCircle />
           </span>}

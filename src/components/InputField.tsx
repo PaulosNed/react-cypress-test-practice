@@ -18,12 +18,13 @@ const InputField: React.FC<Props> = ({ todo, setTodo }) => {
 
             dispatch(addTask(newTodo))
     
-            // setTasks((prev) => [...prev, newTodo])
             setTodo('')
         }
     }
   
     return (
+
+      // Input section
     <div className="w-full bg-white p-1 rounded-full">
       <div className="w-full flex rounded-full pl-4">
         <input
@@ -33,6 +34,8 @@ const InputField: React.FC<Props> = ({ todo, setTodo }) => {
           value={todo}
           onChange={(e) => setTodo(e.target.value)}
         />
+
+        {/* submit button */}
         <button onClick={handleAdd} className="w-12 h-12 rounded-full bg-blue-500 text-lg text-white shadow-xl">
           Go
         </button>

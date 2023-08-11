@@ -7,9 +7,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { filterTask } from "./store";
 
 function App() {
+
+  // fetch tasks from my global store
   const tasks = useSelector((state: any) => state.tasks)
 
+  // to manager input from the input field
   const [todo, setTodo] = useState<string>("");
+
   const dispatch = useDispatch()
 
   const handleChange = (e: any) => {
@@ -23,7 +27,8 @@ function App() {
         break
       
       case 'all':
-    
+        break
+
       default:
         break;
     }
@@ -35,9 +40,13 @@ function App() {
         <p className="w-full text-center text-white font-bold text-3xl">
           Taskify
         </p>
+
+        {/* Add task section */}
         <div className="w-full">
           <InputField todo={todo} setTodo={setTodo} />
         </div>
+
+        {/* Task List section */}
         <div className="flex gap-5">
           <div className="w-1/2  mx-auto bg-cyan-400">
             <div className="flex gap-4 p-4">
