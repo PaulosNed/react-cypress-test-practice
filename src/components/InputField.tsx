@@ -2,7 +2,7 @@ import React from "react";
 import { Props } from "../models/Props";
 import { Task } from "../models/Task";
 import { useDispatch } from "react-redux";
-import { addTask } from "../store";
+import { addTask } from "../store/slices/tasksSlice";
 
 const InputField: React.FC<Props> = ({ todo, setTodo }) => {
 

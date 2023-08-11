@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Task } from "../models/Task";
 import { AiFillEdit, AiFillDelete, AiFillCheckCircle, AiFillBackward } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteTask, moveTask } from "../store";
+import { deleteTask, moveTask } from "../store/slices/tasksSlice";
 
 // interface AllTasks extends Task {
 //   // tasks: Task[],
@@ -18,7 +18,7 @@ const TaskItem: React.FC<Task> = ({ id, description, isDone}) => {
   const [edited, setEdited] = useState<string>(description)
 
   // for use of deleting tasks
-  const tasks = useSelector((state: any) => state.tasks)
+  const tasks = useSelector((state: any) => state.tasks.data)
   const dispatch = useDispatch()
 
 

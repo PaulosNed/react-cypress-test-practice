@@ -4,35 +4,28 @@ import TaskItem from "./components/TaskItem";
 import { Task } from "./models/Task";
 import InputField from "./components/InputField";
 import { useDispatch, useSelector } from "react-redux";
-import { filterTask } from "./store";
+import { changeSearchTerm, filterTask } from "./store/slices/tasksSlice";
 
 function App() {
-
   // fetch tasks from my global store
-  const tasks = useSelector((state: any) => state.tasks)
+  const tasks = useSelector(({ tasks: { search, data } }: any) => {
+    if (search === "completed") {
+      return data.filter((task: Task) => task.isDone === true);
+    } else if (search === "active") {
+      return data.filter((task: Task) => task.isDone === false);
+    } else {
+      return data;
+    }
+  });
 
   // to manager input from the input field
   const [todo, setTodo] = useState<string>("");
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const handleChange = (e: any) => {
-    switch (e.target.value) {
-      case 'active':
-        dispatch(filterTask(false))
-        break;
-      
-      case 'completed':
-        dispatch(filterTask(true))
-        break
-      
-      case 'all':
-        break
-
-      default:
-        break;
-    }
-  }
+    dispatch(changeSearchTerm(e.target.value))
+  };
 
   return (
     <div className="min-h-screen bg-blue-500 p-10">
