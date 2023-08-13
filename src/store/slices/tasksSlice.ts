@@ -41,14 +41,10 @@ export const tasksSlice = createSlice({
         }
       });
     },
-    filterTask(state, action) {
-      state.data = state.data.filter((task: Task) => task.isDone === action.payload);
-      return state;
-    },
     changeSearchTerm(state, action) {
       state.search = action.payload
     }
   },
 });
 
-export const { addTask, deleteTask, moveTask, filterTask, changeSearchTerm } = tasksSlice.actions;
+export const { addTask, deleteTask, moveTask, changeSearchTerm } = tasksSlice.actions;

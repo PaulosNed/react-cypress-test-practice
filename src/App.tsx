@@ -4,7 +4,7 @@ import TaskItem from "./components/TaskItem";
 import { Task } from "./models/Task";
 import InputField from "./components/InputField";
 import { useDispatch, useSelector } from "react-redux";
-import { changeSearchTerm, filterTask } from "./store/slices/tasksSlice";
+import { changeSearchTerm } from "./store/slices/tasksSlice";
 
 function App() {
   // fetch tasks from my global store
