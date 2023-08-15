@@ -1,8 +1,8 @@
-import { render, fireEvent, screen, waitFor } from "@testing-library/react";
+import { render, fireEvent, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import App from "../App";
-import { addTask, deleteTask, moveTask } from "../store/slices/tasksSlice";
+import { addTask } from "../store/slices/tasksSlice";
 
 describe("App component", () => {
   const initialState = {
@@ -27,7 +27,10 @@ describe("App component", () => {
   const store = mockStore(initialState);
 
   it("dispatches addTask action when 'Go' button is clicked with text", () => {
-    
+    // to test whether addTask action is properly being dispatched from our InputField component when the go 
+    // button is clicked with some text on the input field. the expected outcome is the dispatch of the addTask 
+    // action with a payload of a new Task object.
+
     render(
       <Provider store={store}>
         <App />
@@ -49,7 +52,9 @@ describe("App component", () => {
   });
 
   it("does not dispatch addTask action when 'Go' button is clicked with empty text", () => {
-    
+    // to test what happens if the input field was null and the GO button was clicked. the expected outcome is 
+    // that nothing should happen and no action should be dispatched
+
     render(
       <Provider store={store}>
         <App />

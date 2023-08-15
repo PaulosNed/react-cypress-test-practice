@@ -44,7 +44,7 @@ function App() {
           <div className="w-1/2  mx-auto bg-cyan-400">
             <div className="flex gap-4 p-4">
               <p className="w-full text-2xl text-white">Tasks</p>
-              <select name="" id="" onChange={handleChange}>
+              <select name="" id="" onChange={handleChange} role="combobox">
                 <option value="all">All</option>
                 <option value="active">Active</option>
                 <option value="completed">Completed</option>
