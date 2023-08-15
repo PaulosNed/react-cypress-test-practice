@@ -24,7 +24,7 @@ function App() {
   const dispatch = useDispatch();
 
   const handleChange = (e: any) => {
-    dispatch(changeSearchTerm(e.target.value))
+    dispatch(changeSearchTerm(e.target.value));
   };
 
   return (
@@ -50,7 +50,10 @@ function App() {
                 <option value="completed">Completed</option>
               </select>
             </div>
-            <div className="py-2 px-8 flex flex-col gap-2">
+            <div
+              className="py-2 px-8 flex flex-col gap-2"
+              data-testid="task-list"
+            >
               {tasks.map((todo: Task) => (
                 <TaskItem
                   key={todo.id}
